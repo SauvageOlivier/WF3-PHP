@@ -11,5 +11,7 @@
 </head>
 <body>
     <?php 
-    include_once('lib/database.php');
+        // Inclusion du fichier database.php
+        require_once('../lib/database.php');
+        require_once('../lib/fonctions.php');
     ?>

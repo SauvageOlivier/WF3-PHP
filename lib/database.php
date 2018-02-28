@@ -15,11 +15,12 @@ function connexion() {
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         // On affiche des warnings pour les erreurs, à commenter en prod (valeur par défaut PDO::ERRMODE_SILENT)
         PDO::ATTR_ERRMODE => PDO::ERRMODE_WARNING 
-    )
+    );
 
     // Connexion à la base locale diw8
     try {
-        $db = new PDO('mysql:host=' . HOST . ';dbname=' . DB, USER, PASS);
+        $db = new PDO('mysql:host=' . HOST . ';dbname=' . DB, USER, PASS, $db_options);
+        
     } catch (PDOException $e) {
         die("Erreur de connexion : " . $e->getMessage());
     }

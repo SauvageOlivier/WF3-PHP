@@ -2,44 +2,37 @@
     require_once('header.php');
 ?>
 
+
 <?php
     $db = connexion();
-
-    if(isset($_GET['id'])) {
-        //preparation de la requete
-        $query = $dbb->prepare("SELECT name AS Nom, email AS Email, message As message FROM contact WHERE id = :id");
-        $query->bindValue(':id', $_GET['id'], PDO::PARAM_INIT);
-        
-        //Execution de la requete
+    if (isset($_GET['id'])) {
+        // Préparation de la requête
+        $query = $db->prepare("SELECT name AS Nom, email AS Email, message AS Message FROM contact WHERE id = :id");
+        $query->bindValue(':id', $_GET['id'], PDO::PARAM_INT);
+        // Exécution de la requête
         $query->execute();
-
-        //recuperation des resultats
-        if (!$results = $query->fetch()) {
+        // Récupération du résultat
+        if (!$result = $query->fetchAll())
             echo "Rien à afficher";
-        } else {
-            var_dump($result);
-
-            echo 
-            '<table class="table">
-                <tr>
-                    <th>ID</th>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Message</th>
-                </tr>
-
-                <tr>
-                    <td>' . $result['id'] .  '</td>
-                    <td>' . $result['name'] .  '</td>
-                    <td>' . $result['email'] .  '</td>
-                    <td>' . $result['message'] .  '</td>  
-                </tr>
-            </table>'
-            
-            
+        else {
+            echo table_html($result);
         }
-    };    
+    }
+    if (isset($_GET['name'])) {
+        // Préparation de la requête
+        $query = $db->prepare("SELECT name AS Nom, message AS Message FROM contact WHERE name = :name");
+        $query->bindValue(':name', $_GET['name'], PDO::PARAM_STR);
+        // Exécution de la requête
+        $query->execute();
+        // Récupération du résultat
+        if (!$results = $query->fetchAll())
+            echo "Rien à afficher";
+        else {
+            echo table_html($results);
+        }
+    }
 ?>
+
 
 <?php
     require_once('footer.php');
